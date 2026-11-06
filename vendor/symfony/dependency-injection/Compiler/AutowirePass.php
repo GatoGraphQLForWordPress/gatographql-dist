@@ -11,6 +11,7 @@
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Compiler;
 
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Config\Resource\ClassExistenceResource;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\Autowire;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\AutowireCallable;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
@@ -115,6 +116,9 @@ class AutowirePass extends AbstractRecursivePass
             foreach ($value->getAttributes() as $attribute) {
                 if ($attribute === ($v = $this->processValue($attribute))) {
                     continue;
+                }
+                if ($v instanceof ServiceClosureArgument && ($r = $v->getValues()[0]) instanceof Reference && ($target = \array_values(\array_filter($value->getAttributes(), static fn($a) => $a instanceof Target)))) {
+                    return new ServiceClosureArgument($this->getAutowiredReference(new TypedReference($r, $r, $r->getInvalidBehavior(), $value->getName(), $target), \true) ?? $r);
                 }
                 if (!$attribute instanceof Autowire || !$v instanceof Reference) {
                     return $v;
@@ -274,12 +278,17 @@ class AutowirePass extends AbstractRecursivePass
                     if ($attribute instanceof AutowireCallable) {
                         $value = $attribute->buildDefinition($value, $type, $parameter);
                     } elseif ($lazy = $attribute->lazy) {
-                        $definition = (new Definition($type))->setFactory('current')->setArguments([[$value ??= $getValue()]])->setLazy(\true);
+                        $value ??= $getValue();
+                        if (!$value instanceof Reference || ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE !== $value->getInvalidBehavior() && !$this->container->has((string) $value)) {
+                            $arguments[$index] = $value;
+                            continue 2;
+                        }
+                        $definition = (new Definition($type))->setFactory('current')->setArguments([[$value]])->setLazy(\true);
                         if (!\is_array($lazy)) {
                             if (\str_contains($type, '|')) {
                                 throw new AutowiringFailedException($this->currentId, \sprintf('Cannot use #[Autowire] with option "lazy: true" on union types for service "%s"; set the option to the interface(s) that should be proxied instead.', $this->currentId));
                             }
-                            $lazy = \str_contains($type, '&') ? \explode('&', $type) : [];
+                            $lazy = \str_contains($type, '&') ? \explode('&', \trim($type, '()')) : [];
                         }
                         if ($lazy) {
                             if (!\class_exists($type) && !\interface_exists($type, \false)) {

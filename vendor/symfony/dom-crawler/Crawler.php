@@ -256,8 +256,8 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function addNode(\DOMNode $node)
     {
-        if ($node instanceof \DOMDocument) {
-            $node = $node->documentElement;
+        if ($node instanceof \DOMDocument && !($node = $node->documentElement)) {
+            return;
         }
         if (null !== $this->document && $this->document !== $node->ownerDocument) {
             throw new \InvalidArgumentException('Attaching DOM nodes from multiple documents in the same crawler is forbidden.');

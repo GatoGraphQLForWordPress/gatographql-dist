@@ -125,7 +125,10 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass
         }
         $this->processValue($factory);
         $this->byFactory = $byFactory;
+        // a lazy closure gets its service only when it is called
+        $this->lazy = ['Closure', 'fromCallable'] === $value->getFactory() && ('Closure' !== ($value->getClass() ?: 'Closure') || $value->isLazy());
         $this->processValue($value->getArguments());
+        $this->lazy = \false;
         $properties = $value->getProperties();
         $setters = $value->getMethodCalls();
         // Any references before a "wither" are part of the constructor-instantiation graph

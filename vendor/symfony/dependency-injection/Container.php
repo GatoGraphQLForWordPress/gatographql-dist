@@ -10,6 +10,7 @@
  */
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection;
 
+use GatoExternalPrefixByGatoGraphQL\ProxyManager\Proxy\LazyLoadingInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Argument\ServiceLocator as ArgumentServiceLocator;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
@@ -23,6 +24,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Parame
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Contracts\Service\ResetInterface;
 // Help opcache.preload discover always-needed symbols
 \class_exists(RewindableGenerator::class);
@@ -250,7 +252,7 @@ class Container implements ContainerInterface, ResetInterface
         $services = $this->services + $this->privates;
         foreach ($services as $service) {
             try {
-                if ($service instanceof ResetInterface) {
+                if ($service instanceof ResetInterface && !self::isUninitializedLazyObject($service)) {
                     $service->reset();
                 }
             } catch (\Throwable) {
@@ -258,6 +260,8 @@ class Container implements ContainerInterface, ResetInterface
             }
         }
         $this->services = $this->factories = $this->privates = [];
+        // the closures that reference the container itself are created again when needed
+        unset($this->getEnv, $this->getService);
     }
     /**
      * Gets all service ids.
@@ -355,6 +359,16 @@ class Container implements ContainerInterface, ResetInterface
             return $this->{$method}($this);
         }
         return ($factory = $this->factories[$id] ?? $this->factories['service_container'][$id] ?? null) ? $factory($this) : $this->load($method);
+    }
+    private static function isUninitializedLazyObject(object $service) : bool
+    {
+        if ($service instanceof LazyObjectInterface && !$service->isLazyObjectInitialized(\true)) {
+            return \true;
+        }
+        if ($service instanceof LazyLoadingInterface && !$service->isProxyInitialized()) {
+            return \true;
+        }
+        return \PHP_VERSION_ID >= 80400 && (new \ReflectionClass($service))->isUninitializedLazyObject($service);
     }
     private function __clone()
     {

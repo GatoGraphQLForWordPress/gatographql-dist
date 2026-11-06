@@ -5,7 +5,7 @@ namespace PoPCMSSchema\TaxonomyMeta;
 
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
-use PoPSchema\SchemaCommons\Constants\Behaviors;
+use PoPSchema\SchemaCommons\Enums\Behaviors;
 /** @internal */
 class ModuleConfiguration extends AbstractModuleConfiguration
 {
@@ -19,11 +19,11 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
-    public function getTaxonomyMetaBehavior() : string
+    public function getTaxonomyMetaBehavior() : Behaviors
     {
         $envVariable = \PoPCMSSchema\TaxonomyMeta\Environment::TAXONOMY_META_BEHAVIOR;
         $defaultValue = Behaviors::ALLOW;
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue);
+        return Behaviors::tryFrom($this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue->value)) ?? $defaultValue;
     }
     public function treatTaxonomyMetaKeysAsSensitiveData() : bool
     {

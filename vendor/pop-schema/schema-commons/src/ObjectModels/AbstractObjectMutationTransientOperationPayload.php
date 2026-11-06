@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\ObjectModels;
 
+use PoPSchema\SchemaCommons\Enums\OperationStatusEnum;
 use PoPSchema\SchemaCommons\ObjectModels\ErrorPayloadInterface;
 use RuntimeException;
 /** @internal */
@@ -14,7 +15,7 @@ abstract class AbstractObjectMutationTransientOperationPayload extends \PoPSchem
      *
      * @param ErrorPayloadInterface[]|null $errors
      */
-    public function __construct(string $status, public readonly string|int|null $objectID, ?array $errors)
+    public function __construct(OperationStatusEnum $status, public readonly string|int|null $objectID, ?array $errors)
     {
         if ($objectID === null && ($errors === null || $errors === [])) {
             throw new RuntimeException($this->__('Either the object ID or the error(s) must be provided', 'gatographql'));

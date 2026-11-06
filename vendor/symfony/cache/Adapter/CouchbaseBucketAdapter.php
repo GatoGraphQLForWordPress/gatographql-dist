@@ -37,7 +37,7 @@ class CouchbaseBucketAdapter extends AbstractAdapter
         $this->enableVersioning();
         $this->marshaller = $marshaller ?? new DefaultMarshaller();
     }
-    public static function createConnection(#[\SensitiveParameter] array|string $servers, array $options = []) : \GatoExternalPrefixByGatoGraphQL\CouchbaseBucket
+    public static function createConnection(#[\SensitiveParameter] array|string $servers, #[\SensitiveParameter] array $options = []) : \GatoExternalPrefixByGatoGraphQL\CouchbaseBucket
     {
         if (\is_string($servers)) {
             $servers = [$servers];

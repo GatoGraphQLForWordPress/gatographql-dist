@@ -29,25 +29,25 @@ if (!function_exists('humbug_phpscoper_expose_class')) {
         }
     }
 }
+humbug_phpscoper_expose_class('ComposerAutoloaderInita7d6dbc951a07753b559acbbf88ff282', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInita7d6dbc951a07753b559acbbf88ff282');
 humbug_phpscoper_expose_class('CastToType', 'GatoExternalPrefixByGatoGraphQL\CastToType');
 humbug_phpscoper_expose_class('Attribute', 'GatoExternalPrefixByGatoGraphQL\Attribute');
-humbug_phpscoper_expose_class('Stringable', 'GatoExternalPrefixByGatoGraphQL\Stringable');
-humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
-humbug_phpscoper_expose_class('PhpToken', 'GatoExternalPrefixByGatoGraphQL\PhpToken');
 humbug_phpscoper_expose_class('ValueError', 'GatoExternalPrefixByGatoGraphQL\ValueError');
+humbug_phpscoper_expose_class('Stringable', 'GatoExternalPrefixByGatoGraphQL\Stringable');
+humbug_phpscoper_expose_class('PhpToken', 'GatoExternalPrefixByGatoGraphQL\PhpToken');
+humbug_phpscoper_expose_class('UnhandledMatchError', 'GatoExternalPrefixByGatoGraphQL\UnhandledMatchError');
 humbug_phpscoper_expose_class('©', 'GatoExternalPrefixByGatoGraphQL\©');
-humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedIntervalStringException');
-humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
-humbug_phpscoper_expose_class('DateInvalidOperationException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidOperationException');
-humbug_phpscoper_expose_class('SQLite3Exception', 'GatoExternalPrefixByGatoGraphQL\SQLite3Exception');
-humbug_phpscoper_expose_class('DateObjectError', 'GatoExternalPrefixByGatoGraphQL\DateObjectError');
-humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
 humbug_phpscoper_expose_class('DateError', 'GatoExternalPrefixByGatoGraphQL\DateError');
-humbug_phpscoper_expose_class('DateRangeError', 'GatoExternalPrefixByGatoGraphQL\DateRangeError');
+humbug_phpscoper_expose_class('SQLite3Exception', 'GatoExternalPrefixByGatoGraphQL\SQLite3Exception');
+humbug_phpscoper_expose_class('DateMalformedIntervalStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedIntervalStringException');
+humbug_phpscoper_expose_class('DateInvalidOperationException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidOperationException');
 humbug_phpscoper_expose_class('DateMalformedStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedStringException');
 humbug_phpscoper_expose_class('DateMalformedPeriodStringException', 'GatoExternalPrefixByGatoGraphQL\DateMalformedPeriodStringException');
 humbug_phpscoper_expose_class('Override', 'GatoExternalPrefixByGatoGraphQL\Override');
-humbug_phpscoper_expose_class('ComposerAutoloaderInit58bb0f82893309c6ce74db90fd4d708c', 'GatoExternalPrefixByGatoGraphQL\ComposerAutoloaderInit58bb0f82893309c6ce74db90fd4d708c');
+humbug_phpscoper_expose_class('DateException', 'GatoExternalPrefixByGatoGraphQL\DateException');
+humbug_phpscoper_expose_class('DateInvalidTimeZoneException', 'GatoExternalPrefixByGatoGraphQL\DateInvalidTimeZoneException');
+humbug_phpscoper_expose_class('DateRangeError', 'GatoExternalPrefixByGatoGraphQL\DateRangeError');
+humbug_phpscoper_expose_class('DateObjectError', 'GatoExternalPrefixByGatoGraphQL\DateObjectError');
 
 // Function aliases. For more information see:
 // https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md#function-aliases
@@ -68,7 +68,6 @@ humbug_phpscoper_expose_class('ComposerAutoloaderInit58bb0f82893309c6ce74db90fd4
 // if (!function_exists('get_resource_id')) { function get_resource_id() { return \GatoExternalPrefixByGatoGraphQL\get_resource_id(...func_get_args()); } }
 // if (!function_exists('getallheaders')) { function getallheaders() { return \GatoExternalPrefixByGatoGraphQL\getallheaders(...func_get_args()); } }
 // if (!function_exists('headers_send')) { function headers_send() { return \GatoExternalPrefixByGatoGraphQL\headers_send(...func_get_args()); } }
-// if (!function_exists('http_get_last_response_headers')) { function http_get_last_response_headers() { return \GatoExternalPrefixByGatoGraphQL\http_get_last_response_headers(...func_get_args()); } }
 // if (!function_exists('includeIfExists')) { function includeIfExists() { return \GatoExternalPrefixByGatoGraphQL\includeIfExists(...func_get_args()); } }
 // if (!function_exists('json_validate')) { function json_validate() { return \GatoExternalPrefixByGatoGraphQL\json_validate(...func_get_args()); } }
 // if (!function_exists('ldap_connect_wallet')) { function ldap_connect_wallet() { return \GatoExternalPrefixByGatoGraphQL\ldap_connect_wallet(...func_get_args()); } }

@@ -5,7 +5,7 @@ namespace GatoExternalPrefixByGatoGraphQL\GuzzleHttp;
 /**
  * This class contains a list of built-in Guzzle request options.
  *
- * @see https://github.com/guzzle/guzzle/blob/7.15/docs/request-options.md
+ * @see https://github.com/guzzle/guzzle/blob/7.16/docs/request-options.md
  * @internal
  */
 final class RequestOptions

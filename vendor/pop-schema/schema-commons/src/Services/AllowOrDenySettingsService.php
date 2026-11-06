@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\SchemaCommons\Services;
 
-use PoPSchema\SchemaCommons\Constants\Behaviors;
+use PoPSchema\SchemaCommons\Enums\Behaviors;
 /** @internal */
 class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\AllowOrDenySettingsServiceInterface
 {
@@ -13,7 +13,7 @@ class AllowOrDenySettingsService implements \PoPSchema\SchemaCommons\Services\Al
      *
      * @param string[] $entries
      */
-    public function isEntryAllowed(string $name, array $entries, string $behavior) : bool
+    public function isEntryAllowed(string $name, array $entries, Behaviors $behavior) : bool
     {
         if ($entries === []) {
             return $behavior === Behaviors::DENY;

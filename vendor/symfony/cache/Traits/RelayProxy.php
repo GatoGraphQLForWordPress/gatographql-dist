@@ -31,6 +31,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay30
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay40Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay50Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay502Trait;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\Relay61Trait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Traits\Relay\SwapdbTrait;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyObjectInterface;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\VarExporter\LazyProxyTrait;
@@ -69,6 +70,7 @@ class RelayProxy extends \GatoExternalPrefixByGatoGraphQL\Relay\Relay implements
     use Relay40Trait;
     use Relay50Trait;
     use Relay502Trait;
+    use Relay61Trait;
     use SwapdbTrait;
     private const LAZY_OBJECT_PROPERTY_SCOPES = [];
     public function close() : bool

@@ -46,6 +46,7 @@ class NativeSessionStorage implements SessionStorageInterface
      * @var MetadataBag
      */
     protected $metadataBag;
+    private static bool $shutdownRegistered = \false;
     /**
      * Depending on how you want the storage driver to behave you probably
      * want to override this constructor entirely.
@@ -88,7 +89,10 @@ class NativeSessionStorage implements SessionStorageInterface
             throw new \LogicException('PHP extension "session" is required.');
         }
         $options += ['cache_limiter' => '', 'cache_expire' => 0, 'use_cookies' => 1, 'lazy_write' => 1, 'use_strict_mode' => 1];
-        \session_register_shutdown();
+        if (!self::$shutdownRegistered) {
+            \session_register_shutdown();
+            self::$shutdownRegistered = \true;
+        }
         $this->setMetadataBag($metaBag);
         $this->setOptions($options);
         $this->setSaveHandler($handler);

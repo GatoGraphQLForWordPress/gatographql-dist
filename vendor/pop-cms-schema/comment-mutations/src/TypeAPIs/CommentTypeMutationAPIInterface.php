@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\CommentMutations\TypeAPIs;
 
 use PoPCMSSchema\CommentMutations\Exception\CommentCRUDMutationException;
+use PoPCMSSchema\Comments\Enums\CommentStatus;
 /**
  * Methods to interact with the Type, to be implemented by the underlying CMS
  * @internal
@@ -26,7 +27,7 @@ interface CommentTypeMutationAPIInterface
      *
      * @throws CommentCRUDMutationException In case of error
      */
-    public function setCommentStatus(string|int $commentID, string $commentStatus) : void;
+    public function setCommentStatus(string|int $commentID, CommentStatus $commentStatus) : void;
     /**
      * @throws CommentCRUDMutationException In case of error
      */

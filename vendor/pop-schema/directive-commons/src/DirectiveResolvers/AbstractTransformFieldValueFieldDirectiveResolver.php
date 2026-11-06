@@ -61,7 +61,7 @@ abstract class AbstractTransformFieldValueFieldDirectiveResolver extends Abstrac
                         continue;
                     }
                 }
-                $resolvedIDFieldValues[$id][$field] = $this->transformValue($resolvedIDFieldValues[$id][$field], $id, $field, $relationalTypeResolver, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore);
+                $resolvedIDFieldValues[$id]->offsetSet($field, $this->transformValue($resolvedIDFieldValues[$id][$field], $id, $field, $relationalTypeResolver, $succeedingPipelineIDFieldSet, $resolvedIDFieldValues, $engineIterationFeedbackStore));
             }
         }
         /**

@@ -12,7 +12,7 @@ class DirectiveLocationEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\Type
 {
     public function getTypeName() : string
     {
-        return 'DirectiveLocation';
+        return '__DirectiveLocation';
     }
     /**
      * Because this GraphQL server is code-first, the resolver

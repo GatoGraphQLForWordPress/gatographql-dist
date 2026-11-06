@@ -39,8 +39,8 @@ class UriResolver
             throw new \InvalidArgumentException('The URI is relative, so you must define its base URI passing an absolute URL.');
         }
         // empty URI
-        if (!$uri) {
-            return $baseUri;
+        if ('' === $uri) {
+            return self::cleanupAnchor($baseUri);
         }
         // an anchor
         if ('#' === $uri[0]) {
@@ -55,14 +55,18 @@ class UriResolver
             return \preg_replace('#^([^/]*)//.*$#', '$1', $baseUriCleaned) . $uri;
         }
         $baseUriCleaned = \preg_replace('#^(.*?//[^/]*)(?:\\/.*)?$#', '$1', $baseUriCleaned);
-        // absolute path
+        $pos = \strcspn($uri, '?#');
+        $queryAndFragment = \substr($uri, $pos);
+        $uri = \substr($uri, 0, $pos);
         if ('/' === $uri[0]) {
-            return $baseUriCleaned . $uri;
+            // absolute path
+            $path = self::canonicalizePath($uri);
+        } else {
+            // relative path
+            $path = \parse_url(\substr($baseUri, \strlen($baseUriCleaned)), \PHP_URL_PATH) ?? '';
+            $path = self::canonicalizePath(\substr($path, 0, \strrpos($path, '/')) . '/' . $uri);
         }
-        // relative path
-        $path = \parse_url(\substr($baseUri, \strlen($baseUriCleaned)), \PHP_URL_PATH) ?? '';
-        $path = self::canonicalizePath(\substr($path, 0, \strrpos($path, '/')) . '/' . $uri);
-        return $baseUriCleaned . ('' === $path || '/' !== $path[0] ? '/' : '') . $path;
+        return $baseUriCleaned . ('' === $path || '/' !== $path[0] ? '/' : '') . $path . $queryAndFragment;
     }
     /**
      * Returns the canonicalized URI path (see RFC 3986, section 5.2.4).
@@ -72,13 +76,15 @@ class UriResolver
         if ('' === $path || '/' === $path) {
             return $path;
         }
-        if (\str_ends_with($path, '.')) {
+        if (\str_ends_with($path, '/.') || \str_ends_with($path, '/..')) {
             $path .= '/';
         }
         $output = [];
         foreach (\explode('/', $path) as $segment) {
             if ('..' === $segment) {
-                \array_pop($output);
+                if (\count($output) > 1) {
+                    \array_pop($output);
+                }
             } elseif ('.' !== $segment) {
                 $output[] = $segment;
             }

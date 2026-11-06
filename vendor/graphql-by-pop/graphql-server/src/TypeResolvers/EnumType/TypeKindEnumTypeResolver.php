@@ -9,7 +9,7 @@ class TypeKindEnumTypeResolver extends \GraphQLByPoP\GraphQLServer\TypeResolvers
 {
     public function getTypeName() : string
     {
-        return 'TypeKind';
+        return '__TypeKind';
     }
     /**
      * @return string[]

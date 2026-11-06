@@ -15,6 +15,7 @@ use PoP\ComponentModel\GraphQLEngine\Model\ComponentModelSpec\RelationalComponen
 use PoP\ComponentModel\GraphQLEngine\Model\FieldFragmentModelsTuple;
 use PoP\GraphQLParser\ASTNodes\ASTNodesFactory;
 use PoP\GraphQLParser\Spec\Parser\RuntimeLocation;
+use PoP\GraphQLParser\AST\ASTHelperServiceInterface;
 use PoP\GraphQLParser\AST\ASTNodeDuplicatorServiceInterface;
 use PoP\GraphQLParser\Spec\Parser\Ast\Argument;
 use PoP\GraphQLParser\Spec\Parser\Ast\ArgumentValue\InputList;
@@ -101,6 +102,7 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
     private ?WeakMap $fieldUniqueIDCache = null;
     private ?QueryASTTransformationServiceInterface $queryASTTransformationService = null;
     private ?ASTNodeDuplicatorServiceInterface $astNodeDuplicatorService = null;
+    private ?ASTHelperServiceInterface $astHelperService = null;
     protected final function getQueryASTTransformationService() : QueryASTTransformationServiceInterface
     {
         if ($this->queryASTTransformationService === null) {
@@ -118,6 +120,15 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
             $this->astNodeDuplicatorService = $astNodeDuplicatorService;
         }
         return $this->astNodeDuplicatorService;
+    }
+    protected final function getASTHelperService() : ASTHelperServiceInterface
+    {
+        if ($this->astHelperService === null) {
+            /** @var ASTHelperServiceInterface */
+            $astHelperService = $this->instanceManager->getInstance(ASTHelperServiceInterface::class);
+            $this->astHelperService = $astHelperService;
+        }
+        return $this->astHelperService;
     }
     /**
      * The fields in the GraphQL query must be resolved in the same
@@ -559,6 +570,9 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
             if ($fieldOrFragmentBond instanceof FragmentReference) {
                 /** @var FragmentReference */
                 $fragmentReference = $fieldOrFragmentBond;
+                if (!$this->getASTHelperService()->isFragmentBondIncluded($fragmentReference)) {
+                    continue;
+                }
                 $fragment = $this->getASTNodeDuplicatorService()->getExclusiveFragment($fragmentReference, $fragments);
                 if ($fragment === null) {
                     continue;
@@ -573,9 +587,15 @@ abstract class AbstractRelationalFieldQueryDataComponentProcessor extends Abstra
             if ($fieldOrFragmentBond instanceof InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
+                if (!$this->getASTHelperService()->isFragmentBondIncluded($inlineFragment)) {
+                    continue;
+                }
                 $allFieldFragmentModelsFromFieldsOrFragmentBonds = $this->getAllFieldFragmentModelsTuplesFromFieldsOrFragmentBonds($inlineFragment->getFieldsOrFragmentBonds(), $fragments, \false);
-                foreach ($allFieldFragmentModelsFromFieldsOrFragmentBonds as $fieldFragmentModelsTuple) {
-                    $fieldFragmentModelsTuple->addFragmentModel($inlineFragment->getTypeName());
+                $inlineFragmentTypeName = $inlineFragment->getTypeName();
+                if ($inlineFragmentTypeName !== null) {
+                    foreach ($allFieldFragmentModelsFromFieldsOrFragmentBonds as $fieldFragmentModelsTuple) {
+                        $fieldFragmentModelsTuple->addFragmentModel($inlineFragmentTypeName);
+                    }
                 }
                 $fieldFragmentModelsTuples = \array_merge($fieldFragmentModelsTuples, $allFieldFragmentModelsFromFieldsOrFragmentBonds);
                 continue;

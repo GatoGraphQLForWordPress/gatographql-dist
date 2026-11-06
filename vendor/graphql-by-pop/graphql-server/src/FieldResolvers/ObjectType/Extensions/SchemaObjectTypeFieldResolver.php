@@ -108,6 +108,18 @@ class SchemaObjectTypeFieldResolver extends AbstractObjectTypeFieldResolver
             default => parent::getFieldArgDefaultValue($objectTypeResolver, $fieldName, $fieldArgName),
         };
     }
+    /**
+     * Same as `includeDeprecated` in `__Type.fields`
+     *
+     * @see https://spec.graphql.org/September2025/#sec-The-__Type-Type
+     */
+    public function getFieldArgTypeModifiers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName, string $fieldArgName) : int
+    {
+        return match ($fieldArgName) {
+            'includeDeprecated' => SchemaTypeModifiers::MANDATORY,
+            default => parent::getFieldArgTypeModifiers($objectTypeResolver, $fieldName, $fieldArgName),
+        };
+    }
     public function resolveValue(ObjectTypeResolverInterface $objectTypeResolver, object $object, FieldDataAccessorInterface $fieldDataAccessor, ObjectTypeFieldResolutionFeedbackStore $objectTypeFieldResolutionFeedbackStore) : mixed
     {
         /** @var Schema */

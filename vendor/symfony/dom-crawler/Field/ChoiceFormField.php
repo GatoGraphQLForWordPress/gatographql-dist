@@ -23,7 +23,10 @@ class ChoiceFormField extends FormField
     private string $type;
     private bool $multiple;
     private array $options;
+    private ?int $selectedOption = null;
+    private array $selectedOptions = [];
     private bool $validationDisabled = \false;
+    private ?int $checkedRadio = null;
     /**
      * Returns true if the field should be included in the submitted values.
      *
@@ -31,8 +34,7 @@ class ChoiceFormField extends FormField
      */
     public function hasValue() : bool
     {
-        // don't send a value for unchecked checkboxes
-        if (\in_array($this->type, ['checkbox', 'radio']) && null === $this->value) {
+        if (\in_array($this->type, ['checkbox', 'radio', 'select']) && null === $this->value) {
             return \false;
         }
         return \true;
@@ -47,6 +49,13 @@ class ChoiceFormField extends FormField
         }
         if (parent::isDisabled() && 'select' === $this->type) {
             return \true;
+        }
+        // radios may share their value, so look at the checked one only
+        if ('radio' === $this->type) {
+            return null !== $this->checkedRadio && $this->options[$this->checkedRadio]['disabled'];
+        }
+        if ('select' === $this->type && !$this->multiple) {
+            return null !== $this->selectedOption && $this->options[$this->selectedOption]['disabled'];
         }
         foreach ($this->options as $option) {
             if ($option['value'] == $this->value && $option['disabled']) {
@@ -125,8 +134,28 @@ class ChoiceFormField extends FormField
             }
             if (\is_array($value)) {
                 $this->value = $value;
+                $this->selectedOptions = [];
+                foreach ($value as $key => $v) {
+                    foreach ($this->options as $i => $option) {
+                        if ($option['value'] == $v && !\in_array($i, $this->selectedOptions, \true)) {
+                            $this->selectedOptions[$key] = $i;
+                            break;
+                        }
+                    }
+                }
             } else {
                 parent::setValue($value);
+                if ('radio' === $this->type) {
+                    $this->checkRadio($this->value);
+                } elseif ('select' === $this->type) {
+                    $this->selectedOption = null;
+                    foreach ($this->options as $i => $option) {
+                        if ($option['value'] == $this->value) {
+                            $this->selectedOption = $i;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
@@ -147,10 +176,31 @@ class ChoiceFormField extends FormField
         if ($node->hasAttribute('checked')) {
             if ($this->multiple) {
                 $this->value[] = $option['value'];
+                $this->selectedOptions[\array_key_last($this->value)] = \array_key_last($this->options);
             } else {
                 $this->value = $option['value'];
+                $this->checkedRadio = \array_key_last($this->options);
             }
         }
+    }
+    /**
+     * Returns the value to submit, without the values of the selected options that are disabled.
+     *
+     * @internal
+     */
+    public function getSubmittedValue() : string|array|null
+    {
+        $value = $this->getValue();
+        if (!$this->multiple) {
+            return $value;
+        }
+        $isList = \array_is_list($value);
+        foreach ($this->selectedOptions as $key => $i) {
+            if ($this->options[$i]['disabled']) {
+                unset($value[$key]);
+            }
+        }
+        return $isList ? \array_values($value) : $value;
     }
     /**
      * Returns the type of the choice field (radio, select, or checkbox).
@@ -182,14 +232,18 @@ class ChoiceFormField extends FormField
             throw new \LogicException(\sprintf('A ChoiceFormField can only be created from an input tag with a type of checkbox or radio (given type is "%s").', $this->node->getAttribute('type')));
         }
         $this->value = null;
+        $this->selectedOption = null;
+        $this->selectedOptions = [];
         $this->options = [];
         $this->multiple = \false;
+        $this->checkedRadio = null;
         if ('input' == $this->node->nodeName) {
             $this->type = \strtolower($this->node->getAttribute('type'));
             $optionValue = $this->buildOptionValue($this->node);
             $this->options[] = $optionValue;
             if ($this->node->hasAttribute('checked')) {
                 $this->value = $optionValue['value'];
+                $this->checkedRadio = 'radio' === $this->type ? 0 : null;
             }
         } else {
             $this->type = 'select';
@@ -206,14 +260,27 @@ class ChoiceFormField extends FormField
                     $found = \true;
                     if ($this->multiple) {
                         $this->value[] = $optionValue['value'];
+                        $this->selectedOptions[] = \count($this->options) - 1;
                     } else {
                         $this->value = $optionValue['value'];
+                        $this->selectedOption = \count($this->options) - 1;
                     }
                 }
             }
             // if no option is selected and if it is a simple select box, take the first option as the value
             if (!$found && !$this->multiple && $this->options) {
+                if (\preg_match('/^[\\t\\n\\f\\r ]*\\+?([0-9]+)/', $this->node->getAttribute('size'), $matches) && 1 < $matches[1]) {
+                    return;
+                }
                 $this->value = $this->options[0]['value'];
+                $this->selectedOption = 0;
+                foreach ($this->options as $i => $option) {
+                    if (!$option['disabled']) {
+                        $this->value = $option['value'];
+                        $this->selectedOption = $i;
+                        break;
+                    }
+                }
             }
         }
     }
@@ -224,9 +291,19 @@ class ChoiceFormField extends FormField
     {
         $option = [];
         $defaultDefaultValue = 'select' === $this->node->nodeName ? '' : 'on';
-        $defaultValue = isset($node->nodeValue) && !empty($node->nodeValue) ? $node->nodeValue : $defaultDefaultValue;
+        $text = $node->nodeValue ?? '';
+        if ('option' === $node->nodeName && !$node->hasAttribute('value')) {
+            $text = '';
+            $xpath = $node->ownerDocument === $this->node->ownerDocument ? $this->xpath : new \DOMXPath($node->ownerDocument);
+            foreach ($xpath->query('descendant::text()[not(ancestor::*[local-name()="script" and (namespace-uri()="" or namespace-uri()="http://www.w3.org/1999/xhtml" or namespace-uri()="http://www.w3.org/2000/svg")])]', $node) as $textNode) {
+                $text .= $textNode->nodeValue;
+            }
+        }
+        // like browsers, use the option text with ASCII whitespace stripped and collapsed
+        $text = \trim(\preg_replace('/[ \\t\\n\\f\\r]+/', ' ', $text), " \t\n\f\r");
+        $defaultValue = '' !== $text ? $text : $defaultDefaultValue;
         $option['value'] = $node->hasAttribute('value') ? $node->getAttribute('value') : $defaultValue;
-        $option['disabled'] = $node->hasAttribute('disabled');
+        $option['disabled'] = $node->hasAttribute('disabled') || 'option' === $node->nodeName && $node->parentNode instanceof \DOMElement && 'optgroup' === $node->parentNode->nodeName && $node->parentNode->hasAttribute('disabled') || 'input' === $node->nodeName && $this->isInDisabledFieldset($node);
         return $option;
     }
     /**
@@ -270,5 +347,21 @@ class ChoiceFormField extends FormField
     {
         $this->validationDisabled = \true;
         return $this;
+    }
+    /**
+     * Checks the first enabled radio with the given value, or the first one with that value if all are disabled.
+     */
+    private function checkRadio(string $value) : void
+    {
+        $this->checkedRadio = null;
+        foreach ($this->options as $i => $option) {
+            if ($option['value'] == $value) {
+                $this->checkedRadio ??= $i;
+                if (!$option['disabled']) {
+                    $this->checkedRadio = $i;
+                    return;
+                }
+            }
+        }
     }
 }

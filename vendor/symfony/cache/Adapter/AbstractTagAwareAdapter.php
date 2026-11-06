@@ -86,10 +86,11 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
                     $value['meta'] = \pack('VN', (int) (0.1 + $metadata[CacheItem::METADATA_EXPIRY] - CacheItem::METADATA_EXPIRY_OFFSET), $metadata[CacheItem::METADATA_CTIME]);
                 }
                 // Extract tag changes, these should be removed from values in doSave()
+                // All tags are added, as the item may have been removed from them since it was fetched
                 $value['tag-operations'] = ['add' => [], 'remove' => []];
                 $oldTags = $item->metadata[CacheItem::METADATA_TAGS] ?? [];
-                foreach (\array_diff_key($value['tags'], $oldTags) as $addedTag) {
-                    $value['tag-operations']['add'][] = $getId($tagPrefix . $addedTag);
+                foreach ($value['tags'] as $tag) {
+                    $value['tag-operations']['add'][] = $getId($tagPrefix . $tag);
                 }
                 foreach (\array_diff_key($oldTags, $value['tags']) as $removedTag) {
                     $value['tag-operations']['remove'][] = $getId($tagPrefix . $removedTag);
@@ -223,6 +224,7 @@ abstract class AbstractTagAwareAdapter implements TagAwareAdapterInterface, TagA
             }
         } catch (\Exception) {
         }
+        $ok = \true;
         // When bulk-delete failed, retry each item individually
         foreach ($ids as $key => $id) {
             try {

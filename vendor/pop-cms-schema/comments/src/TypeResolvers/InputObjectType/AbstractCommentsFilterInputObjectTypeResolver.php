@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\InputObjectType;
 
-use PoPCMSSchema\Comments\Constants\CommentStatus;
+use PoPCMSSchema\Comments\Enums\CommentStatus;
 use PoPCMSSchema\Comments\Constants\CommentTypes;
 use PoPCMSSchema\Comments\FilterInputs\CommentStatusFilterInput;
 use PoPCMSSchema\Comments\FilterInputs\CommentTypesFilterInput;
@@ -261,7 +261,7 @@ abstract class AbstractCommentsFilterInputObjectTypeResolver extends AbstractObj
     public function getInputFieldDefaultValue(string $inputFieldName) : mixed
     {
         return match ($inputFieldName) {
-            'status' => [CommentStatus::APPROVE],
+            'status' => [CommentStatus::APPROVE->value],
             'types' => [CommentTypes::COMMENT],
             'customPostStatus' => [CustomPostStatus::PUBLISH],
             'customPostTypes' => $this->getCustomPostEnumStringScalarTypeResolver()->getConsolidatedPossibleValues(),

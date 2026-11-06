@@ -4,10 +4,8 @@ declare (strict_types=1);
 namespace PoPSchema\Logger\Log;
 
 use DateTimeInterface;
-use InvalidArgumentException;
 use PoPSchema\Logger\Constants\LoggerContext;
-use PoPSchema\Logger\Constants\LoggerSeverity;
-use PoPSchema\Logger\Constants\LoggerSigns;
+use PoPSchema\Logger\Enums\LoggerSeverity;
 use PoPSchema\Logger\Module;
 use PoPSchema\Logger\ModuleConfiguration;
 use PoP\ComponentModel\App;
@@ -41,7 +39,7 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
     /**
      * @param array<string,mixed>|null $context
      */
-    public function log(string $severity, string $message, string $loggerSource = \PoPSchema\Logger\Log\LoggerSources::INFO, ?array $context = null) : void
+    public function log(LoggerSeverity $severity, string $message, string $loggerSource = \PoPSchema\Logger\Log\LoggerSources::INFO, ?array $context = null) : void
     {
         // Check if the Log is enabled, via the Settings
         /** @var ModuleConfiguration */
@@ -49,7 +47,7 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
         if (!$moduleConfiguration->enableLogs()) {
             return;
         }
-        if (!\in_array($severity, $moduleConfiguration->enableLogsBySeverity())) {
+        if (!\in_array($severity, $moduleConfiguration->enableLogsBySeverity(), \true)) {
             return;
         }
         /** @var string */
@@ -66,7 +64,7 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
      * @see https://stackoverflow.com/a/7655379
      * @param array<string,mixed>|null $context
      */
-    protected function logMessage(string $logFile, string $message, string $severity, ?array $context = null) : void
+    protected function logMessage(string $logFile, string $message, LoggerSeverity $severity, ?array $context = null) : void
     {
         /**
          * Use an ISO 8601 date string in local (WordPress) timezone.
@@ -87,19 +85,16 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
     {
         return "{$loggerSource}.log";
     }
-    protected function getMessageWithLogSeverity(string $severity, string $message) : string
+    protected function getMessageWithLogSeverity(LoggerSeverity $severity, string $message) : string
     {
-        if (!\in_array($severity, LoggerSeverity::ALL)) {
-            throw new InvalidArgumentException(\sprintf('Invalid severity: "%s"', $severity));
-        }
         if ($this->isDryRun) {
             $message = \sprintf($this->__('%s %s', 'gatographql'), '[DRY-RUN]', $message);
         }
         if ($this->addSpacePaddingToLogSeverity()) {
-            $padLength = \max(\array_map('strlen', LoggerSeverity::ALL));
-            $messageSeverity = str_pad($severity, $padLength);
+            $padLength = \max(\array_map(fn(LoggerSeverity $loggerSeverity): int => \strlen($loggerSeverity->value), LoggerSeverity::cases()));
+            $messageSeverity = str_pad($severity->value, $padLength);
         } else {
-            $messageSeverity = $severity;
+            $messageSeverity = $severity->value;
         }
         $message = \sprintf($this->__('%s %s', 'gatographql'), $messageSeverity, $message);
         if ($this->addLoggerSignToMessage()) {
@@ -115,15 +110,9 @@ class Logger extends AbstractBasicService implements \PoPSchema\Logger\Log\Logge
     {
         return \false;
     }
-    protected function getLoggerSeveritySign(string $severity) : string
+    protected function getLoggerSeveritySign(LoggerSeverity $severity) : string
     {
-        return match ($severity) {
-            LoggerSeverity::ERROR => LoggerSigns::ERROR,
-            LoggerSeverity::WARNING => LoggerSigns::WARNING,
-            LoggerSeverity::INFO => LoggerSigns::INFO,
-            LoggerSeverity::DEBUG => LoggerSigns::DEBUG,
-            default => throw new InvalidArgumentException(\sprintf('Invalid severity: "%s"', $severity)),
-        };
+        return $severity->sign();
     }
     protected function maybeCreateLogFile(string $filename) : bool
     {

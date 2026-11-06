@@ -40,6 +40,11 @@ abstract class AbstractUnionTypeResolver extends AbstractRelationalTypeResolver 
         $this->fieldObjectTypeResolverObjectFieldDataCache = new SplObjectStorage();
         parent::__construct();
     }
+    public function resetASTNodeCaches() : void
+    {
+        parent::resetASTNodeCaches();
+        $this->fieldObjectTypeResolverObjectFieldDataCache = new SplObjectStorage();
+    }
     /**
      * @return InterfaceTypeResolverInterface[]
      */

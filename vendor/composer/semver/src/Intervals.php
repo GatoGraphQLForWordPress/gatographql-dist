@@ -35,6 +35,10 @@ class Intervals
      */
     private static $intervalsCache = array();
     /**
+     * @phpstan-var array<string, ConstraintInterface>
+     */
+    private static $compactedCache = array();
+    /**
      * @phpstan-var array<string, int>
      */
     private static $opSortOrder = array('>=' => -3, '<' => -2, '>' => 2, '<=' => 3);
@@ -46,6 +50,7 @@ class Intervals
     public static function clear()
     {
         self::$intervalsCache = array();
+        self::$compactedCache = array();
     }
     /**
      * Checks whether $candidate is a subset of $constraint
@@ -120,6 +125,17 @@ class Intervals
         if (!$constraint instanceof MultiConstraint) {
             return $constraint;
         }
+        $key = (string) $constraint;
+        if (!isset(self::$compactedCache[$key])) {
+            self::$compactedCache[$key] = self::doCompactConstraint($constraint);
+        }
+        return self::$compactedCache[$key];
+    }
+    /**
+     * @return ConstraintInterface
+     */
+    private static function doCompactConstraint(MultiConstraint $constraint)
+    {
         $intervals = self::generateIntervals($constraint);
         $constraints = array();
         $hasNumericMatchAll = \false;
@@ -402,6 +418,10 @@ class Intervals
         }
         if ($op[0] === '<') {
             // < & <=
+            // filter out the invalid interval >= 0.0.0.0-dev - < 0.0.0.0-dev
+            if ($op === '<' && $constraint->getVersion() === '0.0.0.0-dev') {
+                return array('numeric' => array(), 'branches' => Interval::noDev());
+            }
             return array('numeric' => array(new Interval(Interval::fromZero(), $constraint)), 'branches' => Interval::noDev());
         }
         if ($op === '!=') {

@@ -32,6 +32,7 @@ class UnaryNode extends Node
         $value = $this->nodes['node']->evaluate($functions, $values);
         return match ($this->attributes['operator']) {
             'not', '!' => !$value,
+            '+' => +$value,
             '-' => -$value,
             default => $value,
         };

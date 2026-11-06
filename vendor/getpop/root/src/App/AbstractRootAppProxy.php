@@ -40,6 +40,14 @@ abstract class AbstractRootAppProxy implements RootAppInterface
     {
         RootApp::setAppThread($appThread);
     }
+    public static function setMainAppThread(?AppThreadInterface $mainAppThread) : void
+    {
+        RootApp::setMainAppThread($mainAppThread);
+    }
+    public static function isMainAppThread() : bool
+    {
+        return RootApp::isMainAppThread();
+    }
     public static function isInitialized() : bool
     {
         return RootApp::isInitialized();

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments\RelationalTypeDataLoaders\ObjectType;
 
-use PoPCMSSchema\Comments\Constants\CommentStatus;
+use PoPCMSSchema\Comments\Enums\CommentStatus;
 use PoPCMSSchema\Comments\Constants\CommentTypes;
 use PoPCMSSchema\Comments\TypeAPIs\CommentTypeAPIInterface;
 use PoPCMSSchema\CustomPosts\Enums\CustomPostStatus;
@@ -31,7 +31,7 @@ class CommentObjectTypeDataLoader extends AbstractObjectTypeQueryableDataLoader
      */
     public function getQueryToRetrieveObjectsForIDs(array $ids) : array
     {
-        return App::applyFilters(self::HOOK_ALL_OBJECTS_BY_IDS_QUERY, ['include' => $ids, 'type' => [CommentTypes::COMMENT, CommentTypes::TRACKBACK, CommentTypes::PINGBACK], 'status' => [CommentStatus::APPROVE, CommentStatus::HOLD, CommentStatus::SPAM, CommentStatus::TRASH], 'custompost-status' => $this->getAllCustomPostStatuses()], $ids);
+        return App::applyFilters(self::HOOK_ALL_OBJECTS_BY_IDS_QUERY, ['include' => $ids, 'type' => [CommentTypes::COMMENT, CommentTypes::TRACKBACK, CommentTypes::PINGBACK], 'status' => [CommentStatus::APPROVE->value, CommentStatus::HOLD->value, CommentStatus::SPAM->value, CommentStatus::TRASH->value], 'custompost-status' => $this->getAllCustomPostStatuses()], $ids);
     }
     /**
      * @return string[]

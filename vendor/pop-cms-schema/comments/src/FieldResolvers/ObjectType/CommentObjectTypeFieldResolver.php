@@ -315,7 +315,7 @@ class CommentObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldRes
             case 'type':
                 return $this->getCommentTypeAPI()->getCommentType($comment);
             case 'status':
-                return $this->getCommentTypeAPI()->getCommentStatus($comment);
+                return $this->getCommentTypeAPI()->getCommentStatus($comment)->value;
             case 'parent':
                 return $this->getCommentTypeAPI()->getCommentParent($comment);
             case 'date':

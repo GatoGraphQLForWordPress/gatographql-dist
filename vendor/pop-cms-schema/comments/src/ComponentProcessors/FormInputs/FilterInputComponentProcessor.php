@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Comments\ComponentProcessors\FormInputs;
 
-use PoPCMSSchema\Comments\Constants\CommentStatus;
+use PoPCMSSchema\Comments\Enums\CommentStatus;
 use PoPCMSSchema\Comments\Constants\CommentTypes;
 use PoPCMSSchema\Comments\FilterInputs\CommentStatusFilterInput;
 use PoPCMSSchema\Comments\FilterInputs\CommentTypesFilterInput;
@@ -200,7 +200,7 @@ class FilterInputComponentProcessor extends AbstractFilterInputComponentProcesso
         return match ($component->name) {
             self::COMPONENT_FILTERINPUT_CUSTOMPOST_STATUS => [CustomPostStatus::PUBLISH],
             self::COMPONENT_FILTERINPUT_COMMENT_TYPES => [CommentTypes::COMMENT],
-            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => [CommentStatus::APPROVE],
+            self::COMPONENT_FILTERINPUT_COMMENT_STATUS => [CommentStatus::APPROVE->value],
             default => null,
         };
     }

@@ -10,10 +10,11 @@ class InlineFragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst impl
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithDirectivesTrait;
     use \PoP\GraphQLParser\Spec\Parser\Ast\WithFieldsOrFragmentBondsTrait;
     /**
+     * @param string|null $typeName The type condition, or `null` if the inline fragment has none (then it applies to the enclosing type)
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Directive[] $directives
      */
-    public function __construct(protected readonly string $typeName, array $fieldsOrFragmentBonds, array $directives, Location $location)
+    public function __construct(protected readonly ?string $typeName, array $fieldsOrFragmentBonds, array $directives, Location $location)
     {
         parent::__construct($location);
         $this->setDirectives($directives);
@@ -39,13 +40,16 @@ class InlineFragment extends \PoP\GraphQLParser\Spec\Parser\Ast\AbstractAst impl
             }
             $strInlineFragmentFieldsOrFragmentBonds = \sprintf(' %s ', \implode(' ', $strFieldsOrFragmentBonds));
         }
-        return \sprintf('...on %s%s {%s}', $this->typeName, $strInlineFragmentDirectives, $strInlineFragmentFieldsOrFragmentBonds);
+        return \sprintf('...%s%s {%s}', $this->typeName !== null ? 'on ' . $this->typeName : '', $strInlineFragmentDirectives, $strInlineFragmentFieldsOrFragmentBonds);
     }
     protected function doAsASTNodeString() : string
     {
+        if ($this->typeName === null) {
+            return '... { ... }';
+        }
         return \sprintf('...on %s { ... }', $this->typeName);
     }
-    public function getTypeName() : string
+    public function getTypeName() : ?string
     {
         return $this->typeName;
     }

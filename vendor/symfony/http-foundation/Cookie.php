@@ -43,14 +43,53 @@ class Cookie
     public static function fromString(string $cookie, bool $decode = \false) : static
     {
         $data = ['expires' => 0, 'path' => '/', 'domain' => null, 'secure' => \false, 'httponly' => \false, 'raw' => !$decode, 'samesite' => null, 'partitioned' => \false];
-        $parts = HeaderUtils::split($cookie, ';=');
-        $part = \array_shift($parts);
-        $name = $decode ? \urldecode($part[0]) : $part[0];
-        $value = isset($part[1]) ? $decode ? \urldecode($part[1]) : $part[1] : null;
-        $data = HeaderUtils::combine($parts) + $data;
-        $data['expires'] = self::expiresTimestamp($data['expires']);
-        if (isset($data['max-age']) && ($data['max-age'] > 0 || $data['expires'] > \time())) {
-            $data['expires'] = \time() + (int) $data['max-age'];
+        [$pair, $attributes] = \explode(';', $cookie, 2) + ['', ''];
+        $part = \explode('=', $pair, 2);
+        $name = \trim($part[0]);
+        $value = isset($part[1]) ? \trim($part[1]) : null;
+        $name = $decode ? \urldecode($name) : $name;
+        $value = $decode && null !== $value ? \urldecode($value) : $value;
+        foreach (\explode(';', $attributes) as $attribute) {
+            $attribute = \explode('=', $attribute, 2);
+            $attributeName = \strtolower(\trim($attribute[0]));
+            $attributeValue = \trim($attribute[1] ?? '');
+            if ('raw' === $attributeName || !\array_key_exists($attributeName, $data) && 'max-age' !== $attributeName) {
+                continue;
+            }
+            if (\in_array($attributeName, ['secure', 'httponly', 'partitioned'], \true)) {
+                $attributeValue = \true;
+            } elseif ('expires' === $attributeName) {
+                // double quotes are delimiters in cookie dates, see RFC 6265, section 5.1.1
+                $attributeValue = \str_replace('"', '', $attributeValue);
+                if (\is_numeric($attributeValue)) {
+                    $attributeValue = self::expiresTimestamp($attributeValue);
+                } elseif (\false === ($attributeValue = \strtotime($attributeValue))) {
+                    continue;
+                } else {
+                    $attributeValue = \max(1, $attributeValue);
+                }
+            } elseif ('max-age' === $attributeName) {
+                if (!\preg_match('/^-?\\d+$/D', $attributeValue)) {
+                    continue;
+                }
+            } elseif ('samesite' === $attributeName) {
+                $attributeValue = \strtolower($attributeValue);
+                if (!\in_array($attributeValue, [self::SAMESITE_LAX, self::SAMESITE_STRICT, self::SAMESITE_NONE], \true)) {
+                    continue;
+                }
+            }
+            $data[$attributeName] = $attributeValue;
+        }
+        if (isset($data['max-age'])) {
+            $maxAge = (int) $data['max-age'];
+            $now = \time();
+            if ($maxAge > 0) {
+                $data['expires'] = $now + \min($maxAge, \PHP_INT_MAX - $now);
+            } elseif ($data['expires'] > $now) {
+                $data['expires'] = $now;
+            } elseif (0 === $data['expires']) {
+                $data['expires'] = 1;
+            }
         }
         return new static($name, $value, $data['expires'], $data['path'], $data['domain'], $data['secure'], $data['httponly'], $data['raw'], $data['samesite'], $data['partitioned']);
     }
@@ -84,7 +123,7 @@ class Cookie
         if ($raw && \false !== \strpbrk($name, self::RESERVED_CHARS_LIST)) {
             throw new \InvalidArgumentException(\sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
-        if (empty($name)) {
+        if ('' === $name) {
             throw new \InvalidArgumentException('The cookie name cannot be empty.');
         }
         self::validateAttribute('path', $path);

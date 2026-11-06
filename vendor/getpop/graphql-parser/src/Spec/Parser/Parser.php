@@ -62,11 +62,32 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
                 case \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT:
                     $this->fragments[] = $this->parseFragment();
                     break;
+                case \PoP\GraphQLParser\Spec\Parser\Token::TYPE_STRING:
+                case \PoP\GraphQLParser\Spec\Parser\Token::TYPE_BLOCK_STRING:
+                    $this->parseExecutableDefinitionDescription();
+                    break;
                 default:
                     throw new SyntaxErrorParserException(new FeedbackItemResolution(GraphQLParserErrorFeedbackItemProvider::class, GraphQLParserErrorFeedbackItemProvider::E_1, [$this->lookAhead->getData()]), $this->getLocation());
             }
         }
         return $this->createDocument($this->operations, $this->fragments);
+    }
+    /**
+     * Descriptions on operations and fragments document them,
+     * without affecting their execution, so they are skipped.
+     *
+     * A description must be followed by an operation type or
+     * "fragment" (the query shorthand can't have a description).
+     *
+     * @throws SyntaxErrorParserException
+     * @see https://spec.graphql.org/September2025/#sec-Descriptions
+     */
+    protected function parseExecutableDefinitionDescription() : void
+    {
+        $this->lex();
+        if (!$this->matchMulti([\PoP\GraphQLParser\Spec\Parser\Token::TYPE_QUERY, \PoP\GraphQLParser\Spec\Parser\Token::TYPE_MUTATION, \PoP\GraphQLParser\Spec\Parser\Token::TYPE_SUBSCRIPTION, \PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT])) {
+            throw $this->createUnexpectedException($this->peek());
+        }
     }
     /**
      * @param OperationInterface[] $operations
@@ -129,8 +150,7 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
         $this->beforeParsingFieldsOrFragmentBonds();
         while (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RBRACE) && !$this->end()) {
             $this->eatMulti([\PoP\GraphQLParser\Spec\Parser\Token::TYPE_COMMA]);
-            $fieldOrFragmentBond = $this->parseBodyItem($type);
-            $fieldsOrFragmentBonds[] = $fieldOrFragmentBond;
+            $fieldsOrFragmentBonds[] = $this->parseFieldOrFragmentBond($type);
         }
         $this->afterParsingFieldsOrFragmentBonds();
         $this->expect(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RBRACE);
@@ -178,19 +198,49 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
         $this->lex();
         while (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RBRACE) && !$this->end()) {
             $this->eatMulti([\PoP\GraphQLParser\Spec\Parser\Token::TYPE_COMMA]);
-            if ($this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT_REFERENCE)) {
-                $this->lex();
-                if ($this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_ON)) {
-                    $fieldsOrFragmentBonds[] = $this->parseBodyItem(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_INLINE_FRAGMENT);
-                } else {
-                    $fieldsOrFragmentBonds[] = $this->parseFragmentReference();
-                }
-            } else {
-                $fieldsOrFragmentBonds[] = $this->parseBodyItem($token);
-            }
+            $fieldsOrFragmentBonds[] = $this->parseFieldOrFragmentBond($token);
         }
         $this->expect(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RBRACE);
         return $fieldsOrFragmentBonds;
+    }
+    /**
+     * Parse a field, a fragment spread or an inline fragment
+     */
+    protected function parseFieldOrFragmentBond(string $type) : FieldInterface|FragmentBondInterface
+    {
+        if (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_FRAGMENT_REFERENCE)) {
+            return $this->parseBodyItem($type);
+        }
+        $fragmentReferenceToken = $this->lex();
+        if ($this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_ON)) {
+            return $this->parseBodyItem(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_INLINE_FRAGMENT);
+        }
+        if ($this->matchMulti([\PoP\GraphQLParser\Spec\Parser\Token::TYPE_AT, \PoP\GraphQLParser\Spec\Parser\Token::TYPE_LBRACE])) {
+            return $this->parseInlineFragmentWithoutTypeCondition($fragmentReferenceToken);
+        }
+        return $this->parseFragmentReference();
+    }
+    /**
+     * An inline fragment without a type condition, such as
+     * `... @include(if: $foo) { id }`, applies to the enclosing type.
+     *
+     * @throws SyntaxErrorParserException
+     * @see https://spec.graphql.org/September2025/#sec-Inline-Fragments
+     */
+    protected function parseInlineFragmentWithoutTypeCondition(\PoP\GraphQLParser\Spec\Parser\Token $fragmentReferenceToken) : InlineFragment
+    {
+        $directives = $this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_AT) ? $this->parseDirectiveList() : [];
+        if (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_LBRACE)) {
+            throw $this->createUnexpectedException($this->peek());
+        }
+        $this->beforeParsingFieldsOrFragmentBonds();
+        /** @var array<FieldInterface|FragmentBondInterface> */
+        $fieldsOrFragmentBonds = $this->parseBody(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_QUERY);
+        $this->afterParsingFieldsOrFragmentBonds();
+        if (!$fieldsOrFragmentBonds) {
+            throw $this->createUnexpectedTokenTypeException($this->lookAhead->getType());
+        }
+        return $this->createInlineFragment(null, $fieldsOrFragmentBonds, $directives, $this->getTokenLocation($fragmentReferenceToken));
     }
     /**
      * @return Variable[]
@@ -202,6 +252,12 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
         $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_LPAREN);
         while (!$this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_RPAREN) && !$this->end()) {
             $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_COMMA);
+            /**
+             * Skip the variable's description, as it doesn't affect execution
+             *
+             * @see https://spec.graphql.org/September2025/#sec-Descriptions
+             */
+            $this->eatMulti([\PoP\GraphQLParser\Spec\Parser\Token::TYPE_STRING, \PoP\GraphQLParser\Spec\Parser\Token::TYPE_BLOCK_STRING]);
             /** @var Token|null */
             $variableToken = $this->eat(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_VARIABLE);
             if ($variableToken === null) {
@@ -322,11 +378,15 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
     protected function parseFragmentReference() : FragmentReference
     {
         $nameToken = $this->eatIdentifierToken();
-        return $this->createFragmentReference($nameToken->getData(), $this->getTokenLocation($nameToken));
+        $directives = $this->match(\PoP\GraphQLParser\Spec\Parser\Token::TYPE_AT) ? $this->parseDirectiveList() : [];
+        return $this->createFragmentReference($nameToken->getData(), $this->getTokenLocation($nameToken), $directives);
     }
-    protected function createFragmentReference(string $name, \PoP\GraphQLParser\Spec\Parser\Location $location) : FragmentReference
+    /**
+     * @param Directive[] $directives
+     */
+    protected function createFragmentReference(string $name, \PoP\GraphQLParser\Spec\Parser\Location $location, array $directives = []) : FragmentReference
     {
-        return new FragmentReference($name, $location);
+        return new FragmentReference($name, $location, $directives);
     }
     /**
      * @throws SyntaxErrorParserException
@@ -409,7 +469,7 @@ class Parser extends \PoP\GraphQLParser\Spec\Parser\Tokenizer implements \PoP\Gr
      * @param array<FieldInterface|FragmentBondInterface> $fieldsOrFragmentBonds
      * @param Directive[] $directives
      */
-    protected function createInlineFragment(string $typeName, array $fieldsOrFragmentBonds, array $directives, \PoP\GraphQLParser\Spec\Parser\Location $location) : InlineFragment
+    protected function createInlineFragment(?string $typeName, array $fieldsOrFragmentBonds, array $directives, \PoP\GraphQLParser\Spec\Parser\Location $location) : InlineFragment
     {
         return new InlineFragment($typeName, $fieldsOrFragmentBonds, $directives, $location);
     }

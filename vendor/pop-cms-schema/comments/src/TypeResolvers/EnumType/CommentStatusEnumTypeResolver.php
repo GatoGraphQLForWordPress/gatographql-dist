@@ -4,7 +4,7 @@ declare (strict_types=1);
 namespace PoPCMSSchema\Comments\TypeResolvers\EnumType;
 
 use PoP\ComponentModel\TypeResolvers\EnumType\AbstractEnumTypeResolver;
-use PoPCMSSchema\Comments\Constants\CommentStatus;
+use PoPCMSSchema\Comments\Enums\CommentStatus;
 /** @internal */
 class CommentStatusEnumTypeResolver extends AbstractEnumTypeResolver
 {
@@ -17,7 +17,7 @@ class CommentStatusEnumTypeResolver extends AbstractEnumTypeResolver
      */
     public function getEnumValues() : array
     {
-        return [CommentStatus::APPROVE, CommentStatus::HOLD, CommentStatus::SPAM, CommentStatus::TRASH];
+        return [CommentStatus::APPROVE->value, CommentStatus::HOLD->value, CommentStatus::SPAM->value, CommentStatus::TRASH->value];
     }
     /**
      * Description for a specific enum value
@@ -25,10 +25,10 @@ class CommentStatusEnumTypeResolver extends AbstractEnumTypeResolver
     public function getEnumValueDescription(string $enumValue) : ?string
     {
         return match ($enumValue) {
-            CommentStatus::APPROVE => $this->__('Approved comment', 'gatographql'),
-            CommentStatus::HOLD => $this->__('Onhold comment', 'gatographql'),
-            CommentStatus::SPAM => $this->__('Spam comment', 'gatographql'),
-            CommentStatus::TRASH => $this->__('Trashed comment', 'gatographql'),
+            CommentStatus::APPROVE->value => $this->__('Approved comment', 'gatographql'),
+            CommentStatus::HOLD->value => $this->__('Onhold comment', 'gatographql'),
+            CommentStatus::SPAM->value => $this->__('Spam comment', 'gatographql'),
+            CommentStatus::TRASH->value => $this->__('Trashed comment', 'gatographql'),
             default => parent::getEnumValueDescription($enumValue),
         };
     }

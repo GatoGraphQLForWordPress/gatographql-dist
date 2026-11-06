@@ -352,10 +352,10 @@ abstract class AbstractInputObjectTypeResolver extends AbstractTypeResolver impl
     /**
      * Obtain the deprecation messages for an input value.
      *
-     * @param string|int|float|bool|stdClass $inputValue the (custom) scalar in any format: itself (eg: an object) or its representation (eg: as a string)
+     * @param string|int|float|bool|object $inputValue the (custom) scalar in any format: itself (eg: an object) or its representation (eg: as a string)
      * @return string[] The deprecation messages
      */
-    public final function getInputValueDeprecationMessages(string|int|float|bool|stdClass $inputValue) : array
+    public final function getInputValueDeprecationMessages(string|int|float|bool|object $inputValue) : array
     {
         $inputValueDeprecationMessages = [];
         $inputFieldNameTypeResolvers = $this->getConsolidatedInputFieldNameTypeResolvers();

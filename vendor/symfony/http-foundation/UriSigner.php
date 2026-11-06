@@ -54,7 +54,7 @@ class UriSigner
         $url = \parse_url($uri);
         $params = [];
         if (isset($url['query'])) {
-            \parse_str($url['query'], $params);
+            @\parse_str($url['query'], $params);
         }
         if (!\is_string($hash = $params[$this->parameter] ?? null) || '' === $hash) {
             return \false;

@@ -359,7 +359,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
             $objectTypeResolver = $unionTypeResolver->getTargetObjectTypeResolver($object);
             if ($objectTypeResolver === null) {
                 // Set the response for the failing field as null
-                $resolvedIDFieldValues[$id][$field] = null;
+                $resolvedIDFieldValues[$id]->offsetSet($field, null);
                 return;
             }
         } else {
@@ -374,7 +374,7 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
         $fieldArgs = $fieldDataAccessProvider->getFieldArgs($field, $objectTypeResolver, $object);
         if ($fieldArgs === null) {
             // Set the response for the failing field as null
-            $resolvedIDFieldValues[$id][$field] = null;
+            $resolvedIDFieldValues[$id]->offsetSet($field, null);
             $this->setAppStateForFieldValuePromises($relationalTypeResolver, $id, $object, $field, null, $engineIterationFeedbackStore);
             return;
         }
@@ -395,12 +395,12 @@ final class ResolveValueAndMergeFieldDirectiveResolver extends \PoP\ComponentMod
          */
         if ($objectTypeFieldResolutionFeedbackStore->getErrors() !== []) {
             // Set the response for the failing field as null
-            $resolvedIDFieldValues[$id][$field] = null;
+            $resolvedIDFieldValues[$id]->offsetSet($field, null);
             $this->setAppStateForFieldValuePromises($relationalTypeResolver, $id, $object, $field, null, $engineIterationFeedbackStore);
             return;
         }
         // If there is an alias, store the results under this. Otherwise, on the fieldName+fieldArgs
-        $resolvedIDFieldValues[$id][$field] = $value;
+        $resolvedIDFieldValues[$id]->offsetSet($field, $value);
         $this->setAppStateForFieldValuePromises($relationalTypeResolver, $id, $object, $field, $value, $engineIterationFeedbackStore);
     }
     public function getDirectiveDescription(RelationalTypeResolverInterface $relationalTypeResolver) : ?string

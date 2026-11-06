@@ -65,9 +65,23 @@ class NodeExtension extends AbstractExtension
     public function translateNegation(Node\NegationNode $node, Translator $translator) : XPathExpr
     {
         $xpath = $translator->nodeToXPath($node->getSelector());
-        $subXpath = $translator->nodeToXPath($node->getSubSelector());
+        $subSelector = $node->getSubSelector();
+        $element = $this->getElementNode($node->getSelector());
+        // without a type, *-of-type pseudo-classes refer to the siblings that have the type of the element
+        if ($ofType = null !== $element?->getElement() && $this->hasUntypedOfType($subSelector)) {
+            $subSelector = $this->withElement($subSelector, $element);
+        }
+        $subXpath = $translator->nodeToXPath($subSelector);
+        if (\str_starts_with($subXpath, '*/')) {
+            // position() and last() are relative to the step of the negated selector, which is not the step of the element
+            $subXpath = new XPathExpr('', $subXpath->getElement(), XPathExpr::positionsToSiblings($subXpath->getCondition(), $subXpath->getElement()));
+        }
+        if ($ofType) {
+            // the type is already tested on the element
+            $subXpath = new XPathExpr('', '*', $subXpath->getCondition());
+        }
         $subXpath->addNameTest();
-        if ($subXpath->getCondition()) {
+        if ('' !== $subXpath->getCondition()) {
             return $xpath->addCondition(\sprintf('not(%s)', $subXpath->getCondition()));
         }
         return $xpath->addCondition('0');
@@ -127,15 +141,43 @@ class NodeExtension extends AbstractExtension
             $element = \sprintf('%s:%s', $node->getNamespace(), $element);
             $safe = $safe && $this->isSafeName($node->getNamespace());
         }
-        $xpath = new XPathExpr('', $element);
-        if (!$safe) {
-            $xpath->addNameTest();
+        if (!$safe && '*' !== $element) {
+            return new XPathExpr('', '*', 'name() = ' . Translator::getXpathLiteral($element));
         }
-        return $xpath;
+        return new XPathExpr('', $element);
     }
     public function getName() : string
     {
         return 'node';
+    }
+    private function hasUntypedOfType(Node\NodeInterface $node) : bool
+    {
+        $ofType = \false;
+        while ($node instanceof Node\FunctionNode || $node instanceof Node\PseudoNode || $node instanceof Node\ClassNode || $node instanceof Node\HashNode || $node instanceof Node\AttributeNode) {
+            if ($node instanceof Node\FunctionNode && \str_ends_with($node->getName(), '-of-type') || $node instanceof Node\PseudoNode && \str_ends_with($node->getIdentifier(), '-of-type')) {
+                $ofType = \true;
+            }
+            $node = $node->getSelector();
+        }
+        return $ofType && $node instanceof Node\ElementNode && null === $node->getElement() && null === $node->getNamespace();
+    }
+    private function getElementNode(Node\NodeInterface $node) : ?Node\ElementNode
+    {
+        while ($node instanceof Node\NegationNode || $node instanceof Node\FunctionNode || $node instanceof Node\PseudoNode || $node instanceof Node\ClassNode || $node instanceof Node\HashNode || $node instanceof Node\AttributeNode) {
+            $node = $node->getSelector();
+        }
+        return $node instanceof Node\ElementNode ? $node : null;
+    }
+    private function withElement(Node\NodeInterface $node, Node\ElementNode $element) : Node\NodeInterface
+    {
+        return match (\true) {
+            $node instanceof Node\FunctionNode => new Node\FunctionNode($this->withElement($node->getSelector(), $element), $node->getName(), $node->getArguments()),
+            $node instanceof Node\PseudoNode => new Node\PseudoNode($this->withElement($node->getSelector(), $element), $node->getIdentifier()),
+            $node instanceof Node\ClassNode => new Node\ClassNode($this->withElement($node->getSelector(), $element), $node->getName()),
+            $node instanceof Node\HashNode => new Node\HashNode($this->withElement($node->getSelector(), $element), $node->getId()),
+            $node instanceof Node\AttributeNode => new Node\AttributeNode($this->withElement($node->getSelector(), $element), $node->getNamespace(), $node->getAttribute(), $node->getOperator(), $node->getValue()),
+            default => $element,
+        };
     }
     private function isSafeName(string $name) : bool
     {

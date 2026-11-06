@@ -74,7 +74,7 @@ class MigratingSessionHandler implements \SessionHandlerInterface, \SessionUpdat
         $this->writeOnlyHandler->open($savePath, $sessionName);
         return $result;
     }
-    public function read(#[\SensitiveParameter] string $sessionId) : string
+    public function read(#[\SensitiveParameter] string $sessionId) : string|false
     {
         // No reading from new handler until switch-over
         return $this->currentHandler->read($sessionId);

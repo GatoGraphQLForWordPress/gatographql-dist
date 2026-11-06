@@ -29,7 +29,7 @@ use PoP\Root\App;
 use PoP\ComponentModel\Feedback\FeedbackItemResolution;
 use SplObjectStorage;
 /** @internal */
-abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeResolvers\AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface
+abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeResolvers\AbstractTypeResolver implements \PoP\ComponentModel\TypeResolvers\RelationalTypeResolverInterface, \PoP\ComponentModel\TypeResolvers\ASTNodeCachingTypeResolverInterface
 {
     use \PoP\ComponentModel\TypeResolvers\ExcludeFieldNamesFromSchemaTypeResolverTrait;
     /**
@@ -92,6 +92,12 @@ abstract class AbstractRelationalTypeResolver extends \PoP\ComponentModel\TypeRe
     {
         $this->directiveIDFieldSet = new SplObjectStorage();
         $this->fieldDirectives = new SplObjectStorage();
+        $this->objectTypeResolverObjectFieldDataCache = new SplObjectStorage();
+    }
+    public function resetASTNodeCaches() : void
+    {
+        $this->fieldDirectives = new SplObjectStorage();
+        $this->directiveResolverClassDirectivesCache = [];
         $this->objectTypeResolverObjectFieldDataCache = new SplObjectStorage();
     }
     /**

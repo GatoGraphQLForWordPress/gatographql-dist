@@ -3,14 +3,21 @@
 declare (strict_types=1);
 namespace PoP\ComponentModel\Configuration;
 
-use PoP\ComponentModel\Constants\DatabasesOutputModes;
-use PoP\ComponentModel\Constants\DataOutputItems;
-use PoP\ComponentModel\Constants\DataOutputModes;
-use PoP\ComponentModel\Constants\DataSourceSelectors;
-use PoP\ComponentModel\Constants\Outputs;
 use PoP\ComponentModel\Constants\Params;
+use PoP\ComponentModel\Enums\DatabasesOutputModes;
+use PoP\ComponentModel\Enums\DataOutputItems;
+use PoP\ComponentModel\Enums\DataOutputModes;
+use PoP\ComponentModel\Enums\DataSourceSelectors;
+use PoP\ComponentModel\Enums\Outputs;
 use PoP\ComponentModel\Tokens\Param;
 use PoP\Root\App;
+use function array_filter;
+use function array_map;
+use function array_values;
+use function explode;
+use function in_array;
+use function is_array;
+use function is_string;
 /**
  * Special Request class, with properties that modify the Engine's behavior.
  * All methods receive an extra parameter:
@@ -23,18 +30,17 @@ use PoP\Root\App;
  */
 class EngineRequest
 {
-    public static function getOutput(bool $enableModifyingEngineBehaviorViaRequest) : string
+    public static function getOutput(bool $enableModifyingEngineBehaviorViaRequest) : Outputs
     {
         $default = Outputs::HTML;
         if (!$enableModifyingEngineBehaviorViaRequest) {
             return $default;
         }
         $output = App::request(Params::OUTPUT) ?? App::query(Params::OUTPUT);
-        $outputs = [Outputs::HTML, Outputs::JSON];
-        if (!\in_array($output, $outputs)) {
+        if (!is_string($output)) {
             return $default;
         }
-        return $output;
+        return Outputs::tryFrom($output) ?? $default;
     }
     public static function getDataStructure(bool $enableModifyingEngineBehaviorViaRequest) : ?string
     {
@@ -52,47 +58,44 @@ class EngineRequest
         }
         return \PoP\ComponentModel\Configuration\RequestHelpers::getStringOrNullRequestParamValue(App::request(Params::SCHEME) ?? App::query(Params::SCHEME, $default));
     }
-    public static function getDataSourceSelector(bool $enableModifyingEngineBehaviorViaRequest) : string
+    public static function getDataSourceSelector(bool $enableModifyingEngineBehaviorViaRequest) : DataSourceSelectors
     {
         $default = DataSourceSelectors::MODELANDREQUEST;
         if (!$enableModifyingEngineBehaviorViaRequest) {
             return $default;
         }
         $dataSourceSelector = App::request(Params::DATA_SOURCE) ?? App::query(Params::DATA_SOURCE);
-        $allDataSourceSelectors = [DataSourceSelectors::ONLYMODEL, DataSourceSelectors::MODELANDREQUEST];
-        if (!\in_array($dataSourceSelector, $allDataSourceSelectors)) {
+        if (!is_string($dataSourceSelector)) {
             return $default;
         }
-        return $dataSourceSelector;
+        return DataSourceSelectors::tryFrom($dataSourceSelector) ?? $default;
     }
-    public static function getDataOutputMode(bool $enableModifyingEngineBehaviorViaRequest) : string
+    public static function getDataOutputMode(bool $enableModifyingEngineBehaviorViaRequest) : DataOutputModes
     {
         $default = DataOutputModes::SPLITBYSOURCES;
         if (!$enableModifyingEngineBehaviorViaRequest) {
             return $default;
         }
         $dataOutputMode = App::request(Params::DATAOUTPUTMODE) ?? App::query(Params::DATAOUTPUTMODE);
-        $dataOutputModes = [DataOutputModes::SPLITBYSOURCES, DataOutputModes::COMBINED];
-        if (!\in_array($dataOutputMode, $dataOutputModes)) {
+        if (!is_string($dataOutputMode)) {
             return $default;
         }
-        return $dataOutputMode;
+        return DataOutputModes::tryFrom($dataOutputMode) ?? $default;
     }
-    public static function getDBOutputMode(bool $enableModifyingEngineBehaviorViaRequest) : string
+    public static function getDBOutputMode(bool $enableModifyingEngineBehaviorViaRequest) : DatabasesOutputModes
     {
         $default = DatabasesOutputModes::SPLITBYDATABASES;
         if (!$enableModifyingEngineBehaviorViaRequest) {
             return $default;
         }
         $dbOutputMode = App::request(Params::DATABASESOUTPUTMODE) ?? App::query(Params::DATABASESOUTPUTMODE);
-        $dbOutputModes = array(DatabasesOutputModes::SPLITBYDATABASES, DatabasesOutputModes::COMBINED);
-        if (!\in_array($dbOutputMode, $dbOutputModes)) {
+        if (!is_string($dbOutputMode)) {
             return $default;
         }
-        return $dbOutputMode;
+        return DatabasesOutputModes::tryFrom($dbOutputMode) ?? $default;
     }
     /**
-     * @return string[]
+     * @return DataOutputItems[]
      */
     public static function getDataOutputItems(bool $enableModifyingEngineBehaviorViaRequest) : array
     {
@@ -101,24 +104,25 @@ class EngineRequest
             return $default;
         }
         $dataOutputItems = App::getRequest()->request->all()[Params::DATA_OUTPUT_ITEMS] ?? App::getRequest()->query->all()[Params::DATA_OUTPUT_ITEMS] ?? [];
-        if (!\is_array($dataOutputItems)) {
-            $dataOutputItems = \explode(Param::VALUE_SEPARATOR, $dataOutputItems);
+        if (!is_array($dataOutputItems)) {
+            $dataOutputItems = explode(Param::VALUE_SEPARATOR, $dataOutputItems);
         }
-        $dataOutputItems = \array_intersect($dataOutputItems, static::getAllDataOutputItems());
-        if (!$dataOutputItems) {
+        $allDataOutputItems = static::getAllDataOutputItems();
+        $dataOutputItems = array_values(array_filter(array_map(fn(mixed $dataOutputItem): ?DataOutputItems => is_string($dataOutputItem) ? DataOutputItems::tryFrom($dataOutputItem) : null, $dataOutputItems), fn(?DataOutputItems $dataOutputItem): bool => $dataOutputItem !== null && in_array($dataOutputItem, $allDataOutputItems, \true)));
+        if ($dataOutputItems === []) {
             return $default;
         }
         return $dataOutputItems;
     }
     /**
-     * @return string[]
+     * @return DataOutputItems[]
      */
     protected static function getAllDataOutputItems() : array
     {
         return [DataOutputItems::META, DataOutputItems::DATASET_COMPONENT_SETTINGS, DataOutputItems::COMPONENT_DATA, DataOutputItems::DATABASES, DataOutputItems::SESSION];
     }
     /**
-     * @return string[]
+     * @return DataOutputItems[]
      */
     protected static function getDefaultDataOutputItems() : array
     {

@@ -11,10 +11,14 @@
 namespace GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\DependencyInjection;
 
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\AbstractAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ApcuAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ArrayAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ChainAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\NullAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\ParameterNormalizer;
+use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\PhpFilesAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\Messenger\EarlyExpirationDispatcher;
 use GatoExternalPrefixByGatoGraphQL\Symfony\Component\Cache\PruneableInterface;
@@ -30,6 +34,7 @@ use GatoExternalPrefixByGatoGraphQL\Symfony\Component\DependencyInjection\Refere
  */
 class CachePoolPass implements CompilerPassInterface
 {
+    private const ADAPTERS_WITHOUT_PROVIDER = [ApcuAdapter::class, ArrayAdapter::class, FilesystemAdapter::class, FilesystemTagAwareAdapter::class, NullAdapter::class, PhpFilesAdapter::class];
     /**
      * @return void
      */
@@ -51,10 +56,12 @@ class CachePoolPass implements CompilerPassInterface
                 continue;
             }
             $class = $adapter->getClass();
+            $factory = $adapter->getFactory();
             $providers = $adapter->getArguments();
             while ($adapter instanceof ChildDefinition) {
                 $adapter = $container->findDefinition($adapter->getParent());
                 $class = $class ?: $adapter->getClass();
+                $factory = $factory ?: $adapter->getFactory();
                 $providers += $adapter->getArguments();
                 if ($t = $adapter->getTag('cache.pool')) {
                     $tags[0] += $t[0];
@@ -77,6 +84,15 @@ class CachePoolPass implements CompilerPassInterface
                 $clearer = null;
             }
             unset($tags[0]['clearer'], $tags[0]['name']);
+            // count the env vars of ignored attributes, so that the dumper doesn't report them as unused
+            if (\in_array($class, self::ADAPTERS_WITHOUT_PROVIDER, \true) || [AbstractAdapter::class, 'createSystemCache'] === $factory) {
+                $container->resolveEnvPlaceholders($tags[0]['provider'] ?? null);
+                unset($tags[0]['provider']);
+            }
+            if (NullAdapter::class === $class) {
+                $container->resolveEnvPlaceholders($tags[0]['default_lifetime'] ?? null);
+                unset($tags[0]['default_lifetime']);
+            }
             if (isset($tags[0]['provider'])) {
                 $tags[0]['provider'] = new Reference(static::getServiceProvider($container, $tags[0]['provider']));
             }
@@ -102,13 +118,13 @@ class CachePoolPass implements CompilerPassInterface
                         throw new InvalidArgumentException(\sprintf('Invalid service "%s": chain of adapters cannot reference another chain, found "%s".', $id, $chainedPool->getParent()));
                     }
                     $i = 0;
-                    if (isset($chainedTags[0]['provider'])) {
+                    if (isset($chainedTags[0]['provider']) && !\in_array($chainedClass, self::ADAPTERS_WITHOUT_PROVIDER, \true)) {
                         $chainedPool->replaceArgument($i++, new Reference(static::getServiceProvider($container, $chainedTags[0]['provider'])));
                     }
                     if (isset($tags[0]['namespace']) && !\in_array($adapter->getClass(), [ArrayAdapter::class, NullAdapter::class], \true)) {
                         $chainedPool->replaceArgument($i++, $tags[0]['namespace']);
                     }
-                    if (isset($tags[0]['default_lifetime'])) {
+                    if (isset($tags[0]['default_lifetime']) && NullAdapter::class !== $chainedClass) {
                         $defaultLifetime = $tags[0]['default_lifetime'];
                         if (!\is_numeric($defaultLifetime)) {
                             $defaultLifetime = (new Definition('int', [$defaultLifetime]))->setFactory([ParameterNormalizer::class, 'normalizeDuration']);

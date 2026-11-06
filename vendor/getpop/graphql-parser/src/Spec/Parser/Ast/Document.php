@@ -215,6 +215,19 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         }
     }
     /**
+     * Indicate if the Fragment is referenced within the Operation,
+     * either directly or via other Fragments.
+     */
+    public function isFragmentReferencedInOperation(\PoP\GraphQLParser\Spec\Parser\Ast\Fragment $fragment, \PoP\GraphQLParser\Spec\Parser\Ast\OperationInterface $operation) : bool
+    {
+        foreach ($this->getFragmentReferencesInOperation($operation) as $fragmentReference) {
+            if ($fragmentReference->getName() === $fragment->getName()) {
+                return \true;
+            }
+        }
+        return \false;
+    }
+    /**
      * Gather all the FragmentReference within the Operation.
      *
      * @return FragmentReference[]
@@ -389,13 +402,13 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
                 if ($fragment === null) {
                     continue;
                 }
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($fragment->getFieldsOrFragmentBonds()));
+                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($fragment->getFieldsOrFragmentBonds()), $this->getVariableReferencesInDirectives($fragmentReference->getDirectives()));
                 continue;
             }
             if ($fieldOrFragmentBond instanceof \PoP\GraphQLParser\Spec\Parser\Ast\InlineFragment) {
                 /** @var InlineFragment */
                 $inlineFragment = $fieldOrFragmentBond;
-                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($inlineFragment->getFieldsOrFragmentBonds()));
+                $variableReferences = \array_merge($variableReferences, $this->getVariableReferencesInFieldsOrFragments($inlineFragment->getFieldsOrFragmentBonds()), $this->getVariableReferencesInDirectives($inlineFragment->getDirectives()));
                 continue;
             }
             /** @var FieldInterface */
@@ -746,7 +759,10 @@ class Document implements \PoP\GraphQLParser\Spec\Parser\Ast\DocumentInterface
         }
         /** @var FragmentReference */
         $fragmentReference = $fieldOrFragmentBond;
-        // Nothing to set here
+        foreach ($fragmentReference->getDirectives() as $directive) {
+            $astNodeAncestors[$directive] = $fragmentReference;
+            $this->setASTNodeAncestorsUnderDirective($astNodeAncestors, $directive);
+        }
     }
     /**
      * @param SplObjectStorage<AstInterface,AstInterface> $astNodeAncestors

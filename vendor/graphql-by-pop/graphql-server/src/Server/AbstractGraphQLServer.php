@@ -3,10 +3,12 @@
 declare (strict_types=1);
 namespace GraphQLByPoP\GraphQLServer\Server;
 
+use GraphQLByPoP\GraphQLServer\Validation\RequestValidationServiceInterface;
 use PoPAPI\API\HelperServices\ApplicationStateFillerServiceInterface;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\Engine\EngineInterface;
 use PoP\ComponentModel\ExtendedSpec\Execution\ExecutableDocument;
+use PoP\GraphQLParser\ExtendedSpec\Execution\ExecutableDocumentInterface;
 use PoP\Root\Facades\Instances\InstanceManagerFacade;
 use PoP\Root\HttpFoundation\Response;
 use PoP\Root\Services\StandaloneServiceTrait;
@@ -16,6 +18,7 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
     use StandaloneServiceTrait;
     private ?ApplicationStateFillerServiceInterface $applicationStateFillerService = null;
     private ?EngineInterface $engine = null;
+    private ?RequestValidationServiceInterface $requestValidationService = null;
     protected final function getApplicationStateFillerService() : ApplicationStateFillerServiceInterface
     {
         if ($this->applicationStateFillerService === null) {
@@ -33,6 +36,15 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
             $this->engine = $engine;
         }
         return $this->engine;
+    }
+    protected final function getRequestValidationService() : RequestValidationServiceInterface
+    {
+        if ($this->requestValidationService === null) {
+            /** @var RequestValidationServiceInterface */
+            $requestValidationService = InstanceManagerFacade::getInstance()->getInstance(RequestValidationServiceInterface::class);
+            $this->requestValidationService = $requestValidationService;
+        }
+        return $this->requestValidationService;
     }
     /**
      * The basic state for executing GraphQL queries is already set.
@@ -59,6 +71,16 @@ abstract class AbstractGraphQLServer implements \GraphQLByPoP\GraphQLServer\Serv
         App::generateAndStackFeedbackStore();
         App::generateAndStackTracingStore();
         $this->getApplicationStateFillerService()->defineGraphQLQueryVarsInApplicationState($queryOrExecutableDocument, $variables, $operationName);
+        /**
+         * If the GraphQL query has request errors, do not execute it
+         */
+        /** @var ExecutableDocumentInterface|null */
+        $executableDocument = App::getState('executable-document-ast');
+        if ($executableDocument !== null && !$this->getRequestValidationService()->maybeValidateExecutableDocumentAgainstSchema($executableDocument)) {
+            $appStateManager = App::getAppStateManager();
+            $appStateManager->override('executable-document-ast', null);
+            $appStateManager->override('does-api-query-have-errors', \true);
+        }
         /**
          * Create and stack a new Response object, to be
          * used during this processing

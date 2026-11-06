@@ -286,7 +286,7 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
                         $arrayItemField = $this->getArrayItemField($field, $arrayItemAlias);
                         $nestedFieldDataAccessProvider->duplicateFieldData($field, $arrayItemField);
                         // Place into the current object
-                        $resolvedIDFieldValues[$id][$arrayItemField] = $value;
+                        $resolvedIDFieldValues[$id]->offsetSet($arrayItemField, $value);
                         // Place it into list of fields to process
                         $arrayItemIDsProperties[$id]->fields[] = $arrayItemField;
                         $arrayItemEntriesForField[] = [$arrayItemField, $key];
@@ -636,7 +636,7 @@ abstract class AbstractApplyNestedDirectivesOnArrayOrObjectItemsFieldDirectiveRe
         foreach ($arrayItemKeyValues as [$arrayItemKey, $arrayItemValue]) {
             $this->setProcessedArrayItemValue($relationalTypeResolver, $engineIterationFeedbackStore, $id, $field, $arrayItemKey, $arrayItemValue, $value);
         }
-        $resolvedIDFieldValues[$id][$field] = $value;
+        $resolvedIDFieldValues[$id]->offsetSet($field, $value);
     }
     /**
      * Mutate `$value` in place to record the processed item at

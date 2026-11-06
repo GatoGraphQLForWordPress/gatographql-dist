@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\Meta\TypeAPIs;
 
+use PoPSchema\SchemaCommons\Enums\Behaviors;
 /** @internal */
 interface MetaTypeAPIInterface
 {
@@ -13,5 +14,5 @@ interface MetaTypeAPIInterface
      * @return string[]
      */
     public function getAllowOrDenyMetaEntries() : array;
-    public function getAllowOrDenyMetaBehavior() : string;
+    public function getAllowOrDenyMetaBehavior() : Behaviors;
 }

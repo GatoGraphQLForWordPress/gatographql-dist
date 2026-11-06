@@ -3,6 +3,7 @@
 declare (strict_types=1);
 namespace PoPCMSSchema\UserMeta\TypeAPIs;
 
+use PoPSchema\SchemaCommons\Enums\Behaviors;
 use PoP\Root\App;
 use PoPCMSSchema\Meta\Exception\MetaKeyNotAllowedException;
 use PoPCMSSchema\Meta\TypeAPIs\AbstractMetaTypeAPI;
@@ -36,7 +37,7 @@ abstract class AbstractUserMetaTypeAPI extends AbstractMetaTypeAPI implements \P
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
         return $moduleConfiguration->getUserMetaEntries();
     }
-    public function getAllowOrDenyMetaBehavior() : string
+    public function getAllowOrDenyMetaBehavior() : Behaviors
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();

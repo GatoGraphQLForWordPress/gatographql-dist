@@ -56,9 +56,9 @@ class HeaderUtils
                         # token
                         [^"\\s' . $quotedSeparators . ']++
                     |
-                        # whitespace, only when more of the value follows it, so that a value
-                        # never ends on whitespace and none of it ever has to be given back
-                        \\s++(?![' . $quotedSeparators . ']|$)
+                        # whitespace that is not a separator, only when more of the value follows it,
+                        # so that a value never ends on whitespace and none of it ever has to be given back
+                        [^\\S' . $quotedSeparators . ']++(?![' . $quotedSeparators . ']|$)
                     )++
             |
                 # separator
@@ -161,7 +161,7 @@ class HeaderUtils
             $filenameFallback = $filename;
         }
         // filenameFallback is not ASCII.
-        if (!\preg_match('/^[\\x20-\\x7e]*$/', $filenameFallback)) {
+        if (!\preg_match('/^[\\x20-\\x7e]*$/D', $filenameFallback)) {
             throw new \InvalidArgumentException('The filename fallback must only contain ASCII characters.');
         }
         // percent characters aren't safe in fallback.
@@ -212,7 +212,7 @@ class HeaderUtils
         if ($ignoreBrackets) {
             return $q;
         }
-        \parse_str(\implode('&', $q), $q);
+        @\parse_str(\implode('&', $q), $q);
         $query = [];
         foreach ($q as $k => $v) {
             if (\false !== ($i = \strpos($k, '_'))) {

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace PoPSchema\Logger;
 
-use PoPSchema\Logger\Constants\LoggerSeverity;
+use PoPSchema\Logger\Enums\LoggerSeverity;
 use PoP\Root\Module\AbstractModuleConfiguration;
 use PoP\Root\Module\EnvironmentValueHelpers;
 /** @internal */
@@ -26,13 +26,15 @@ class ModuleConfiguration extends AbstractModuleConfiguration
         return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
     }
     /**
-     * @return string[]
+     * @return LoggerSeverity[]
      */
     public function enableLogsBySeverity() : array
     {
         $envVariable = \PoPSchema\Logger\Environment::ENABLE_LOGS_BY_SEVERITY;
-        $defaultValue = [LoggerSeverity::ERROR, LoggerSeverity::WARNING, LoggerSeverity::INFO, LoggerSeverity::DEBUG];
+        $defaultValue = [LoggerSeverity::ERROR->value, LoggerSeverity::WARNING->value, LoggerSeverity::INFO->value, LoggerSeverity::DEBUG->value];
         $callback = EnvironmentValueHelpers::commaSeparatedStringToArray(...);
-        return $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        /** @var string[] */
+        $severities = $this->retrieveConfigurationValueOrUseDefault($envVariable, $defaultValue, $callback);
+        return \array_values(\array_filter(\array_map(LoggerSeverity::tryFrom(...), $severities)));
     }
 }

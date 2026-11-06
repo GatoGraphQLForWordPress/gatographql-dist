@@ -262,7 +262,7 @@ class Request
     {
         $request = self::createRequestFromFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
         if (\str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded') && \in_array(\strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])) {
-            \parse_str($request->getContent(), $data);
+            @\parse_str($request->getContent(), $data);
             $request->request = new InputBag($data);
         }
         return $request;
@@ -362,7 +362,7 @@ class Request
         }
         $queryString = '';
         if (isset($components['query'])) {
-            \parse_str(\html_entity_decode($components['query']), $qs);
+            @\parse_str(\html_entity_decode($components['query']), $qs);
             if ($query) {
                 $query = \array_replace($qs, $query);
                 $queryString = \http_build_query($query, '', '&');
@@ -1597,8 +1597,12 @@ class Request
         if ('' !== $requestUri && '/' !== $requestUri[0]) {
             $requestUri = '/' . $requestUri;
         }
-        if ($baseUrl && null !== ($prefix = $this->getUrlencodedPrefix($requestUri, $baseUrl))) {
-            // full $baseUrl matches
+        if (\str_starts_with($requestUri, '//') || \str_starts_with($requestUri, '/\\')) {
+            // the URI starts with a host that the client chose: URLs built on it would point there
+            return '';
+        }
+        if ($baseUrl && null !== ($prefix = $this->getUrlencodedPrefix($requestUri, $baseUrl)) && \in_array($requestUri[\strlen($prefix)] ?? '', ['', '/', '?'], \true)) {
+            // full $baseUrl matches, and is not only the start of a longer path segment
             return $prefix;
         }
         if ($baseUrl && null !== ($prefix = $this->getUrlencodedPrefix($requestUri, \rtrim(\dirname($baseUrl), '/' . \DIRECTORY_SEPARATOR) . '/'))) {
@@ -1609,16 +1613,17 @@ class Request
         if (\false !== ($pos = \strpos($requestUri, '?'))) {
             $truncatedRequestUri = \substr($requestUri, 0, $pos);
         }
-        $basename = \basename($baseUrl ?? '');
-        if (empty($basename) || !\strpos(\rawurldecode($truncatedRequestUri), $basename)) {
-            // no match whatsoever; set it blank
+        // With mod_rewrite or ISAPI_Rewrite, the script filename can come after
+        // a prefix in the path: the base URL then ends with the script filename
+        $decodedRequestUri = \rawurldecode($truncatedRequestUri);
+        if (!$baseUrl || !($pos = $this->isIisRewrite() ? \stripos($decodedRequestUri, $baseUrl) : \strpos($decodedRequestUri, $baseUrl))) {
+            // the script filename isn't in the path, or only at its start, which is handled above
             return '';
         }
-        // If using mod_rewrite or ISAPI_Rewrite strip the script filename
-        // out of baseUrl. $pos !== 0 makes sure it is not matching a value
-        // from PATH_INFO or QUERY_STRING
-        if (\strlen($requestUri) >= \strlen($baseUrl) && \false !== ($pos = \strpos($requestUri, $baseUrl)) && 0 !== $pos) {
-            $baseUrl = \substr($requestUri, 0, $pos + \strlen($baseUrl));
+        $baseUrl = $this->getUrlencodedPrefix($truncatedRequestUri, \substr($decodedRequestUri, 0, $pos + \strlen($baseUrl))) ?? '';
+        if (!\in_array($requestUri[\strlen($baseUrl)] ?? '', ['', '/', '?'], \true)) {
+            // the script filename is only the start of a longer path segment
+            return '';
         }
         return \rtrim($baseUrl, '/' . \DIRECTORY_SEPARATOR);
     }
@@ -1702,11 +1707,11 @@ class Request
         } elseif (!\str_starts_with(\rawurldecode($string), $prefix)) {
             return null;
         }
+        // Each byte of the prefix takes 1 or 3 characters in the string.
+        // A {n} quantifier would make PCRE fail to compile for a long prefix.
         $len = \strlen($prefix);
-        if (\preg_match(\sprintf('#^(%%[[:xdigit:]]{2}|.){%d}#', $len), $string, $match)) {
-            return $match[0];
-        }
-        return null;
+        \preg_match_all('#%[[:xdigit:]]{2}|.#s', \substr($string, 0, 3 * $len), $match);
+        return \implode('', \array_slice($match[0], 0, $len));
     }
     private static function createRequestFromFactory(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) : static
     {

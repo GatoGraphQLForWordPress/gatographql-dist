@@ -65,6 +65,9 @@ class TransientOperationPayloadObjectTypeFieldResolver extends AbstractObjectTyp
     {
         /** @var AbstractTransientOperationPayload */
         $objectTransientOperationPayload = $object;
+        if ($fieldDataAccessor->getFieldName() === 'status') {
+            return $objectTransientOperationPayload->status->value;
+        }
         /**
          * The parent already resolves all remaining fields
          */
